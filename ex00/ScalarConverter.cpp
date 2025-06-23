@@ -18,17 +18,23 @@ template <class Type>
 void	display(Type value)
 {
 	if (static_cast<long int>(value) > 2147483647 || static_cast<long int>(value) < -2147483648)
-	{
-		std::cout << "char: impossible\nint: impossible\nfloat: impossible\ndouble: impossible\n";
-		return ;
-	}
-	if (isprint(static_cast<char>(value)))
-		std::cout << "char: " << "'" << static_cast<char>(value) << "'" << std::endl;
+		std::cout << "char: impossible\nint: impossible\n";
 	else
-		std::cout << "char: Non displayable\n";
-	std::cout << "int: " << static_cast<int>(value) << std::endl;
-	std::cout << std::fixed << std::setprecision(1) << "float: " << static_cast<float>(value) << "f" << std::endl;
-	std::cout << std::fixed << std::setprecision(1) << "double: " << static_cast<double>(value) << std::endl;
+	{
+		if (isprint(static_cast<char>(value)))
+			std::cout << "char: " << "'" << static_cast<char>(value) << "'" << std::endl;
+		else
+			std::cout << "char: Non displayable\n";
+		std::cout << "int: " << static_cast<int>(value) << std::endl;
+	}
+	if (static_cast<double>(value) < -3.40282e+38 || static_cast<double>(value) > 3.40282e+38)
+		std::cout << "float: impossible\n";
+	else
+		std::cout << std::fixed << std::setprecision(1) << "float: " << static_cast<float>(value) << "f" << std::endl;
+	if (static_cast<long double>(value) < -1.79769e+308 || static_cast<long double>(value) > 1.79769e+308)
+		std::cout << "double: impossible\n";
+	else
+		std::cout << std::fixed << std::setprecision(1) << "double: " << static_cast<double>(value) << std::endl;
 }
 
 bool	nanException(std::string str)
@@ -58,7 +64,7 @@ void	ScalarConverter::convert(std::string str)
 {
 	if (nanException(str) == true || infException(str) == true)
 		return ;
-	if (str.find('.') != std::string::npos && std::isdigit(str[0]) != false)
+	if (str.find('.') != std::string::npos && std::isdigit(str[str.find('.') - 1]) != false)
 	{
 		if (str[str.length() - 1] == 'f')
 		{
